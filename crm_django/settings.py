@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'clients.apps.ClientsConfig',
     'products.apps.ProductsConfig',
     'users.apps.UsersConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -65,7 +66,7 @@ ROOT_URLCONF = 'crm_django.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['frontend'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

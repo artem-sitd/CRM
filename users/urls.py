@@ -1,8 +1,8 @@
 from django.urls import path
+from .views import login_view, Statistic
 
 urlpatterns = [
-    # path("profile", ProfileApiView.as_view(), name="profile"),
-    # path("sign-up", SignUpApiView.as_view(), name="sign-up"),
-    # path("sign-in", SignInApiView.as_view(), name="sign-in"),
-    # path("sign-out", SignOutApiView.as_view(), name="sign-out"),
+    path("login/", login_view, name="login"),
+    # path("statistic/", Statistic.as_view(), name="statistic"),
+
 ]

@@ -7,9 +7,9 @@ from contracts.models import Contract
 
 
 class Client(models.Model):
-    name = models.CharField(max_length=40, blank=False, null=True)  # Имя
-    second_name = models.CharField(max_length=50, blank=False, null=True)  # Фамилия
-    surname = models.CharField(max_length=50, blank=True, null=True)  # Отчество
+    name = models.CharField(max_length=40, blank=False, null=True, default='введите в это поле имя')  # Имя
+    second_name = models.CharField(max_length=50, blank=False, null=True, default='введите в это поле фамилию')  # Фамилия
+    surname = models.CharField(max_length=50, blank=True, null=True, default='введите в это поле отчество')  # Отчество
     phone = models.CharField(max_length=12, blank=False, null=True, default="+0123456789")  # Телефон
     email = models.EmailField(max_length=50, default="example@mail.com", blank=True, null=True)  # Почта
     ads = models.ForeignKey(Ads, on_delete=models.SET_NULL,
