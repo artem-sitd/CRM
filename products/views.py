@@ -38,7 +38,7 @@ class DetailProduct(DetailView):
 class DeleteProduct(DeleteView):
     model = Product
     success_url = reverse_lazy('products:products-list')
-    template_name = 'products\products-delete.html'
+    template_name = 'products/products-delete.html'
 
     def form_valid(self, form):
         self.object = self.get_object()
@@ -51,5 +51,5 @@ class DeleteProduct(DeleteView):
 class ProductUpdateView(UpdateView):
     model = Product
     fields = '__all__'
-    template_name = 'products\products-edit.html'
+    template_name = 'products/products-edit.html'
     success_url = reverse_lazy('products:products-list')

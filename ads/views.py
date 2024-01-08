@@ -1,7 +1,9 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, DeleteView, UpdateView
+
+from products.models import Product
 from .forms import AdsForm
 from .models import Ads
 
@@ -33,10 +35,6 @@ class DetailAds(DetailView):
     model = Ads
     context_object_name = 'object'
 
-    def get_queryset(self):
-        qs = get_object_or_404(Ads, pk=self.kwargs['pk'])
-        return qs
-
 
 # Дописать permission
 class DeleteAds(DeleteView):
@@ -44,7 +42,7 @@ class DeleteAds(DeleteView):
     success_url = reverse_lazy('ads:ads-list')
     template_name = 'ads/ads-delete.html'
 
-    def delete(self, request, *args, **kwargs):
+    def form_valid(self, form):
         self.object = self.get_object()
         self.object.archived = True
         self.object.save()
@@ -57,3 +55,8 @@ class AdsUpdateView(UpdateView):
     fields = '__all__'
     template_name = 'ads/ads-edit.html'
     success_url = reverse_lazy('ads:ads-list')
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['product'].queryset = Product.objects.filter(archived=False)
+        return form

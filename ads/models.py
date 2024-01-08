@@ -15,3 +15,6 @@ class Ads(models.Model):
         ('VK_GROUP', 'VK_GROUP'), ('VK_ADS', 'VK_ADS'), ('TG_CHANNEL', 'TG_CHANNEL'),
         ('TG_ADS', 'TG_ADS'), ('other', 'other'))
     promotion = models.CharField(choices=promotion_choice, blank=False, null=True)
+
+    def __str__(self):
+        return f'{self.title}, {self.product}, {self.promotion}'

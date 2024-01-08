@@ -8,3 +8,6 @@ class Product(models.Model):
     archived = models.BooleanField(default=False)
     description = models.CharField(max_length=500, null=True, blank=False, db_index=True)  # Описание услуги
     created_at = models.DateTimeField(auto_now_add=True)  # Дата создания
+
+    def __str__(self):
+        return f'{self.pk} {self.title}'

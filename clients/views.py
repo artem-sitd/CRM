@@ -33,10 +33,6 @@ class DetailLead(DetailView):
     model = Client
     context_object_name = 'object'
 
-    def get_queryset(self):
-        qs = get_object_or_404(Client, pk=self.kwargs['pk'])
-        return qs
-
 
 # Дописать permission
 class DeleteLead(DeleteView):
@@ -44,7 +40,7 @@ class DeleteLead(DeleteView):
     success_url = reverse_lazy('clients:leads-list')
     template_name = 'leads/leads-delete.html'
 
-    def delete(self, request, *args, **kwargs):
+    def form_valid(self, form):
         self.object = self.get_object()
         self.object.state = 'INACTIVE'  # не удаляем, а меняем его статус на inactive
         self.object.save()
