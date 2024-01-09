@@ -6,7 +6,6 @@ __pycache__/
 # C extensions
 *.so
 crm_venv/
-frontend/
 # Distribution / packaging
 .Python
 build/
@@ -163,3 +162,5 @@ cython_debug/
 .idea/
 /diplomdj/
 
+/down_sb/
+/схема статистики.jpg

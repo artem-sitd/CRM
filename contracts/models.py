@@ -1,6 +1,6 @@
 from django.db import models
 from products.models import Product
-from clients.models import Client
+from clients.models import HistoryAds
 
 
 class Contract(models.Model):
@@ -12,4 +12,4 @@ class Contract(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)  # Дата создания
     validity = models.DateTimeField(blank=False, null=True)  # Дата окончания
     file = models.FileField(null=True, upload_to='contracts/file')  # Договор, или другой файл
-
+    ads_history = models.ForeignKey(HistoryAds, on_delete=models.SET_NULL, null=True) # расскомментить после миграция рекламы

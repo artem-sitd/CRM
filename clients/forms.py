@@ -7,3 +7,10 @@ class ClientsForm(forms.ModelForm):
     class Meta:
         model = Client
         fields = '__all__'
+
+
+# Дописать permission. Проверка наличия такого номера в базе
+class CheckPhoneForm(forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = ['phone']
