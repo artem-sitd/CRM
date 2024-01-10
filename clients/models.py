@@ -22,6 +22,9 @@ class Client(models.Model):
     ]
     state = models.CharField(choices=STATE_CHOICES, max_length=20, default='POTENTIAL')
 
+    def formatted_created_at(self):
+        return self.created_at.strftime("%Y-%m-%d %H:%M:%S")
+
     def __str__(self):
         return f'ФИО: {self.name} {self.second_name} {self.surname}, телефон: {self.phone}'
 

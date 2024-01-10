@@ -10,7 +10,13 @@ class ClientsForm(forms.ModelForm):
 
 
 # Дописать permission. Проверка наличия такого номера в базе
-class CheckPhoneForm(forms.ModelForm):
-    class Meta:
-        model = Client
+class CheckPhoneForm(ClientsForm):
+    class Meta(ClientsForm.Meta):
         fields = ['phone']
+
+# Дописать permission
+class LeadUpdateForm(ClientsForm):
+    class Meta(ClientsForm.Meta):
+        widgets = {
+            'phone': forms.TextInput(attrs={'readonly': 'readonly'}),
+        }

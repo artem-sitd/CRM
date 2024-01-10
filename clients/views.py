@@ -2,13 +2,13 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, UpdateView, ListView, DetailView
-from .forms import ClientsForm, CheckPhoneForm
-from .models import Client
+from .forms import ClientsForm, CheckPhoneForm, LeadUpdateForm
+from .models import Client, HistoryAds
 from django.contrib import messages
 
 
 # Дописать permission. Первичная проверка клиента
-def leads_check(request):
+def create_leads(request):
     if request.method == 'POST':
         form = CheckPhoneForm(request.POST)
         if form.is_valid():
@@ -42,21 +42,21 @@ def leads_check(request):
     else:
         form = CheckPhoneForm()
 
-    return render(request, 'leads/leads-check.html', {'form': form})
+    return render(request, 'leads/leads-create.html', {'form': form})
 
 
 # Дописать permission
-def create_leads(request):
-    success_url = reverse_lazy('clients:leads-list')
-    if request.method == 'POST':
-        form = ClientsForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(success_url)  # Перенаправление на страницу успеха (нужно настроить
-            # на выход к странице list, но для этого надо разграничить доступы
-    else:
-        form = ClientsForm()  # Создайте пустую форму, если это GET-запрос
-    return render(request, 'leads/leads-create.html', {'form': form})
+# def create_leads(request):
+#     success_url = reverse_lazy('clients:leads-list')
+#     if request.method == 'POST':
+#         form = ClientsForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponseRedirect(success_url)  # Перенаправление на страницу успеха (нужно настроить
+#             # на выход к странице list, но для этого надо разграничить доступы
+#     else:
+#         form = ClientsForm()  # Создайте пустую форму, если это GET-запрос
+#     return render(request, 'leads/leads-create.html', {'form': form})
 
 
 # Дописать permission
@@ -89,6 +89,13 @@ class DeleteLead(DeleteView):
 # Дописать permission
 class LeadUpdateView(UpdateView):
     model = Client
-    fields = '__all__'
+    form_class = LeadUpdateForm
     template_name = 'leads/leads-edit.html'
     success_url = reverse_lazy('clients:leads-list')
+
+    def form_valid(self, form):
+        # Получаем объект Client
+        client = form.save()
+        # Здесь создайте объект HistoryAds на основе данных из объекта Client
+        HistoryAds.objects.create(ads=client.ads, client=client)
+        return HttpResponseRedirect(self.get_success_url())

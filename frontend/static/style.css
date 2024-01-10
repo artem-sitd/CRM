@@ -2,20 +2,22 @@
     font-family: "Poppins", sans-serif;
 }
 
-.alert-success {
-    background-color: #00fa00;
-    border-color: #d6e9c6;
-    color: #fd0090;
+body {
+    background: #dfe9f5;
 }
 
-.alert-info {
+.messages {
     background-color: #00a6ff;
     border-color: #bce8f1;
     color: #ffca00;
-}
-
-body {
-    background: #dfe9f5;
+    font-size: 20rem;
+    position: fixed; /* Фиксированная позиция элемента */
+    top: 20px; /* Отступ сверху */
+    left: 50%; /* Центрирование по горизонтали */
+    transform: translateX(-50%); /* Сдвиг влево на 50% ширины элемента */
+    padding: 0; /* Убираем отступы */
+    list-style: none; /* Убираем маркеры списка */
+    margin: 0; /* Убираем отступы */
 }
 
 .nav-logo {
@@ -51,4 +53,6 @@ body {
 .card-body i {
     float: left;
     font-size: 9rem;
+    width: 100%;
 }
+
