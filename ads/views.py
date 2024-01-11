@@ -3,9 +3,11 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, DeleteView, UpdateView
 
+from contracts.models import Contract
 from products.models import Product
 from .forms import AdsForm
 from .models import Ads
+from clients.models import HistoryAds
 
 
 # Дописать permission
@@ -14,7 +16,6 @@ def create_ads(request):
     if request.method == 'POST':
         form = AdsForm(request.POST)
         if form.is_valid():
-            form.save()
             return HttpResponseRedirect(success_url)  # Перенаправление на страницу успеха (нужно настроить
             # на выход странице со ссылками, но для этого надо разграничить доступы
     else:
@@ -60,3 +61,24 @@ class AdsUpdateView(UpdateView):
         form = super().get_form(form_class)
         form.fields['product'].queryset = Product.objects.filter(archived=False)
         return form
+
+
+def ads_stat(request):
+    data = []
+    if request.method == 'GET':
+        ads_qs = Ads.objects.all().only('id', 'price', 'title')
+        for ad in ads_qs:
+            leads_list = HistoryAds.objects.filter(ads=ad.id).values_list('id', flat=True)
+            contract_list_ads = Contract.objects.filter(ads_history__id__in=leads_list).only('price')
+            profit = int(sum(i.price for i in contract_list_ads))
+
+            dic_ad = {'pk': ad.pk,
+                      'title': ad.title,
+                      'client_potential': leads_list.count(),
+                      'client_active': contract_list_ads.count(),
+                      'profit': profit,
+                      'ad_price': int(ad.price),
+                      'ROI': round((profit / ad.price) * 100, 2)}
+            data.append(dic_ad)
+    return render(request, 'ads/ads-statistic.html',
+                  context={'data': sorted(data, key=lambda x: x['ROI'], reverse=True)})

@@ -12,6 +12,7 @@
             {% for ad in ads %}
             <li class="list-group-item list-group-item-light d-flex justify-content-between">
                 <a href="/ads/detail/{{ ad.pk }}" class="text-decoration-none link-dark">{{ ad.title }}</a>
+                <p> Бюджет: {{ ad.price }} </p>
                 <a href="/ads/{{ ad.pk }}/delete" class="btn btn-danger">Удалить</a>
             </li>
             {% endfor %}

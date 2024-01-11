@@ -33,3 +33,6 @@ class Client(models.Model):
 class HistoryAds(models.Model):
     ads = models.ForeignKey(Ads, on_delete=models.SET_NULL, null=True)
     client = models.ForeignKey(Client, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return f'Реклама: {self.ads}. > Клиент: {self.client}'

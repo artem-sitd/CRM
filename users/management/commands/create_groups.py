@@ -1,7 +1,14 @@
 from django.core.management import BaseCommand
 from users.models import Profile
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, Permission
+"""
+●	Администратор может создавать, просматривать и редактировать пользователей, назначать им роли и разрешения. Такой функционал реализует административная панель Django.
+●	Оператор может создавать, просматривать и редактировать потенциальных клиентов.
+●	Маркетолог может создавать, просматривать и редактировать предоставляемые услуги и рекламные кампании.
+●	Менеджер может создавать, просматривать и редактировать контракты, смотреть потенциальных клиентов и переводить их в активных.
+●	Все роли могут смотреть статистику рекламных кампаний.
 
+"""
 
 # Создание групп для сотрудников
 class Command(BaseCommand):
@@ -68,3 +75,32 @@ class Command(BaseCommand):
             get_user = User.objects.get(username=v['username'])
             get_group = Group.objects.get(name=k)
             add_groups(user1=get_user, group=get_group)
+
+        # Добавление permissions группам
+
+        operators_gr = Group.objects.get(name='Operators')
+        marketer_gr = Group.objects.get(name='Marketers')
+        manager_gr = Group.objects.get(name='Managers')
+
+        permissions_operators = ['Can add client', 'Can change client', 'Can view client']
+        operator_perm_id = []
+
+        permissions_marketer = ['Can add product', 'Can change product', 'Can view product', 'Can add ads',
+                                'Can change ads', 'Can view ads']
+        marketer_perm_id = []
+
+        permissions_manager = ['Can add contract', 'Can change contract', 'Can view contract', 'Can add client',
+                               'Can change client', 'Can view client']
+        manager_perm_id = []
+
+        for i in permissions_operators:
+            operator_perm_id.append(Permission.objects.get(name=i).pk)
+        operators_gr.permissions.set(operator_perm_id)
+
+        for i in permissions_marketer:
+            marketer_perm_id.append(Permission.objects.get(name=i).pk)
+        marketer_gr.permissions.set(marketer_perm_id)
+
+        for i in permissions_manager:
+            manager_perm_id.append(Permission.objects.get(name=i).pk)
+        manager_gr.permissions.set(manager_perm_id)

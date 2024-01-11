@@ -1,14 +1,15 @@
 from django.contrib.auth import authenticate, login
-from django.http import HttpResponseRedirect
+from django.contrib.auth.views import LogoutView
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
-from django.urls import reverse_lazy
-from django.views.generic import ListView
-
+from products.models import Product
+from ads.models import Ads
+from clients.models import Client
 from .forms import LoginForm
+from django.db.models import Case, When, Count
 
 
 def login_view(request):
-    # success_url = reverse_lazy('users:statistic')
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -26,8 +27,21 @@ def login_view(request):
                 form.add_error('__all__', 'ошибка, не верны логин или пароль!')
     else:
         form = LoginForm()
-    return render(request, 'registration/login.html', {'form': form})
+    return render(request, 'users/login.html', {'form': form})
 
 
-class Statistic(ListView):
-    pass
+class Logout_view(LogoutView):
+    next_page = '/users/login/'
+
+
+def generalStat(request):
+    if request.method == 'GET':
+        clients = Client.objects.aggregate(
+            leads_count=Count(Case(When(state='POTENTIAL', then=1))),
+            customers_count=Count(Case(When(state='Active', then=1))))
+        context = {'products_count': Product.objects.filter(archived=False).only('id').count(),
+                   'advertisements_count': Ads.objects.filter(archived=False).only('id').count(),
+                   'leads_count': clients['leads_count'],
+                   'customers_count': clients['customers_count']}
+        return render(request, 'users/index.html', context=context)
+    return HttpResponse('только метод get')

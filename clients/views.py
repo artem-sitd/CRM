@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, UpdateView, ListView, DetailView
-from .forms import ClientsForm, CheckPhoneForm, LeadUpdateForm
+from .forms import CheckPhoneForm, LeadUpdateForm
 from .models import Client, HistoryAds
 from django.contrib import messages
 
@@ -26,11 +26,11 @@ def create_leads(request):
                 if existing_client.state == 'Active':
                     # Если клиент активен, показываем сообщение об успешном сообщении
                     messages.success(request, 'Клиент является активным - переходим к созданию контракта')
-                    return redirect('contracts-create')  # Перенаправление на страницу создания контракта
+                    return redirect(reverse_lazy('contracts:contracts-create'))  # Перенаправление на страницу создания контракта
 
                 if existing_client.state == 'Potential':
                     messages.success(request, 'Клиент уже является потенциальным - переходим к созданию контракта')
-                    return redirect('contracts-create')  # Перенаправление на страницу создания контракта
+                    return redirect(reverse_lazy('contracts:contracts-create'))  # Перенаправление на страницу создания контракта
 
                 else:
                     # Если клиент неактивен, показываем сообщение об успешном сообщении
@@ -46,25 +46,16 @@ def create_leads(request):
 
 
 # Дописать permission
-# def create_leads(request):
-#     success_url = reverse_lazy('clients:leads-list')
-#     if request.method == 'POST':
-#         form = ClientsForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect(success_url)  # Перенаправление на страницу успеха (нужно настроить
-#             # на выход к странице list, но для этого надо разграничить доступы
-#     else:
-#         form = ClientsForm()  # Создайте пустую форму, если это GET-запрос
-#     return render(request, 'leads/leads-create.html', {'form': form})
-
-
-# Дописать permission
 class ListLead(ListView):
     template_name = 'leads/leads-list.html'
     context_object_name = 'leads'
     queryset = Client.objects.filter(state='POTENTIAL').order_by('id')
 
+# Дописать permission
+class ListInactive(ListView):
+    template_name = 'leads/leads-inactive.html'
+    context_object_name = 'leads'
+    queryset = Client.objects.filter(state='INACTIVE').order_by('id')
 
 # Дописать permission
 class DetailLead(DetailView):
@@ -96,6 +87,13 @@ class LeadUpdateView(UpdateView):
     def form_valid(self, form):
         # Получаем объект Client
         client = form.save()
-        # Здесь создайте объект HistoryAds на основе данных из объекта Client
-        HistoryAds.objects.create(ads=client.ads, client=client)
+        if not HistoryAds.objects.filter(ads=client.ads, client=client).exists():
+            # Здесь создайте объект HistoryAds на основе данных из объекта Client, если такой записи нет
+            HistoryAds.objects.create(ads=client.ads, client=client)
         return HttpResponseRedirect(self.get_success_url())
+
+
+class ActiveClient(ListView):
+    template_name = 'leads/leads-active.html'
+    context_object_name = 'leads'
+    queryset = Client.objects.filter(state='Active').order_by('id')
