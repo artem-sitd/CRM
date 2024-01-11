@@ -1,18 +1,72 @@
 {% extends "_base.html" %}
 
 {% block content %}
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #dddddd;
+
+        }
+
+        th {
+            background-color: #bbddf5; /* Светло-голубой фон для заголовков */
+        }
+
+        tr:nth-child(even) {
+            background-color: #d9f5d9; /* Светло-зеленый фон для четных строк */
+        }
+
+        tr:nth-child(odd) {
+            background-color: #badaba;
+            /* Темно-зеленый фон для нечетных строк */
+        }
+    </style>
     <h2 class="fw-bold">Статистика рекламных компаний</h2>
     <div class="row bg-white px-3 py-3 mx-2 my-5 rounded pb-5 shadow-lg">
         <div class="col">
+
             <ul class="list-group">
-                {% for ad in data %}
-                    <li class="list-group-item list-group-item-light d-flex justify-content-between">
-                        <a href="/ads/detail/{{ ad.pk }}/" class="text-decoration-none link-dark">Реклама: {{ ad.title }}. </a>
-                        <p> Лидов: {{ ad.client_potential }} | Заключено контрактов: {{ ad.client_active }}. </p>
-                        <p> Бюджет рекламы: {{ ad.ad_price }} | Сумма контрактов: {{ ad.profit }}. </p>
-                        </p> Соотношение контрактов к затратам: <b>{{ ad.ROI }}%</b> </p>
-                    </li>
-                {% endfor %}
+                <table border="2px">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Название</th>
+                        <th>Лидов</th>
+                        <th>Контракты</th>
+                        <th>Бюджет рекламы</th>
+                        <th>Сумма контрактов</th>
+                        <th>ROI</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for ad in data %}
+                        <tr>
+                            <td><a href="/ads/detail/{{ ad.pk }}">{{ ad.pk }}</a></td>
+                            <td><a href="/ads/detail/{{ ad.pk }}">{{ ad.title }}</a></td>
+                            <td>{{ ad.client_potential }}</td>
+                            <td>{{ ad.client_active }}</td>
+                            <td>{{ ad.ad_price }}</td>
+                            <td>{{ ad.profit }}</td>
+                            <td>{{ ad.ROI }} %</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {#                {% for ad in data %}#}
+                {#                    <li class="list-group-item list-group-item-light d-flex justify-content-between">#}
+                {#                        <a href="/ads/detail/{{ ad.pk }}/"#}
+                {#                           class="text-decoration-none link-dark">Реклама: {{ ad.title }}. </a>#}
+                {#                        <p> Лидов: {{ ad.client_potential }} | Заключено контрактов: {{ ad.client_active }}. </p>#}
+                {#                        <p> Бюджет рекламы: {{ ad.ad_price }} | Сумма контрактов: {{ ad.profit }}. </p>#}
+                {#                        </p> Соотношение контрактов к затратам: <b>{{ ad.ROI }}%</b> </p>#}
+                {#                    </li>#}
+                {#                {% endfor %}#}
             </ul>
         </div>
     </div>

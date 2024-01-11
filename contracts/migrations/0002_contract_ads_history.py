@@ -5,16 +5,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('clients', '0003_remove_client_contract_historyads'),
-        ('contracts', '0001_initial'),
+        ("clients", "0003_remove_client_contract_historyads"),
+        ("contracts", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='contract',
-            name='ads_history',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='clients.historyads'),
+            model_name="contract",
+            name="ads_history",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="clients.historyads",
+            ),
         ),
     ]

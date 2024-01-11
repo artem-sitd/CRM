@@ -35,12 +35,21 @@
                     <span><i class="fas fa-microchip"></i></span><span class="ml-1"> Услуги</span>
                 </a></li>
             {% endif %}
-            {% if perms.advertisements.view_advertisement %}
+
+
+            {% if perms.auth.view_ads_stat %}
+                <li><a href="/ads/statistic/" class="bar-item text-decoration-none px-3 py-3 d-block">
+                    <span><i class="fas fa-microchip"></i></span><span class="ml-1"> Статистика рекламы</span>
+                </a></li>
+            {% endif %}
+
+
+            {% if perms.ads.view_ads %}
                 <li><a href="/ads/list/" class="bar-item text-decoration-none px-3 py-3 d-block">
                     <span><i class="fas fa-ad"></i></span><span class="ml-1"> Рекламные компании</span>
                 </a></li>
             {% endif %}
-            {% if perms.leads.view_lead %}
+            {% if perms.clients.view_client %}
                 <li><a href="/clients/list/" class="bar-item text-decoration-none px-3 py-3 d-block">
                     <span><i class="fas fa-user-clock"></i></span><span class="px-1"> Лиды</span>
                 </a></li>
@@ -50,7 +59,7 @@
                     <span><i class="fas fa-file-alt"></i></span><span class="px-1"> Контракты</span>
                 </a></li>
             {% endif %}
-            {% if perms.customers.view_customer %}
+            {% if perms.clients.view_client %}
                 <li><a href="/clients/list/active/" class="bar-item text-decoration-none px-3 py-3 d-block">
                     <span><i class="fas fa-user-check"></i></span><span class="px-1"> Активные клиенты</span>
                 </a></li>
@@ -59,9 +68,11 @@
                 <hr>
             </li>
 
-{#            <li><a href="/users/logout" class="bar-item text-decoration-none px-3 py-3 d-block">#}
-{#                <span><i class="fas fa-sign-out-alt"></i></span><span class="px-1"> Выход</span>#}
-{#            </a></li>#}
+            {#                убрал эту кнопку, т.к. она делает get запрос, а logoutView принимает post#}
+
+            {#            <li><a href="/users/logout" class="bar-item text-decoration-none px-3 py-3 d-block">#}
+            {#                <span><i class="fas fa-sign-out-alt"></i></span><span class="px-1"> Выход</span>#}
+            {#            </a></li>#}
 
             <form action="{% url 'users:logout' %}" method="post">
                 {% csrf_token %}

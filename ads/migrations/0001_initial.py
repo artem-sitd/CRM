@@ -5,24 +5,63 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('products', '0001_initial'),
+        ("products", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Ads',
+            name="Ads",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=50)),
-                ('price', models.DecimalField(decimal_places=2, default=0, max_digits=8)),
-                ('archived', models.BooleanField(default=False)),
-                ('description', models.CharField(db_index=True, max_length=500, null=True)),
-                ('promotion', models.CharField(choices=[('INSTAGRAM', 'INSTAGRAM'), ('YOUTUBE', 'YOUTUBE'), ('2GIS', '2GIS'), ('GOOGLE', 'GOOGLE'), ('YANDEX', 'YANDEX'), ('SITE', 'SITE'), ('AVITO', 'AVITO'), ('VK_GROUP', 'VK_GROUP'), ('VK_ADS', 'VK_ADS'), ('TG_CHANNEL', 'TG_CHANNEL'), ('TG_ADS', 'TG_ADS'), ('other', 'other')], null=True)),
-                ('product', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='products.product')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=50)),
+                (
+                    "price",
+                    models.DecimalField(decimal_places=2, default=0, max_digits=8),
+                ),
+                ("archived", models.BooleanField(default=False)),
+                (
+                    "description",
+                    models.CharField(db_index=True, max_length=500, null=True),
+                ),
+                (
+                    "promotion",
+                    models.CharField(
+                        choices=[
+                            ("INSTAGRAM", "INSTAGRAM"),
+                            ("YOUTUBE", "YOUTUBE"),
+                            ("2GIS", "2GIS"),
+                            ("GOOGLE", "GOOGLE"),
+                            ("YANDEX", "YANDEX"),
+                            ("SITE", "SITE"),
+                            ("AVITO", "AVITO"),
+                            ("VK_GROUP", "VK_GROUP"),
+                            ("VK_ADS", "VK_ADS"),
+                            ("TG_CHANNEL", "TG_CHANNEL"),
+                            ("TG_ADS", "TG_ADS"),
+                            ("other", "other"),
+                        ],
+                        null=True,
+                    ),
+                ),
+                (
+                    "product",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="products.product",
+                    ),
+                ),
             ],
         ),
     ]

@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('contracts', '0002_contract_ads_history'),
+        ("contracts", "0002_contract_ads_history"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='contract',
-            name='file',
-            field=models.FileField(blank=True, null=True, upload_to='contracts/file'),
+            model_name="contract",
+            name="file",
+            field=models.FileField(blank=True, null=True, upload_to="contracts/file"),
         ),
     ]

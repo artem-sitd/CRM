@@ -4,25 +4,33 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('clients', '0001_initial'),
+        ("clients", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='client',
-            name='name',
-            field=models.CharField(default='введите в это поле имя', max_length=40, null=True),
+            model_name="client",
+            name="name",
+            field=models.CharField(
+                default="введите в это поле имя", max_length=40, null=True
+            ),
         ),
         migrations.AlterField(
-            model_name='client',
-            name='second_name',
-            field=models.CharField(default='введите в это поле фамилию', max_length=50, null=True),
+            model_name="client",
+            name="second_name",
+            field=models.CharField(
+                default="введите в это поле фамилию", max_length=50, null=True
+            ),
         ),
         migrations.AlterField(
-            model_name='client',
-            name='surname',
-            field=models.CharField(blank=True, default='введите в это поле отчество', max_length=50, null=True),
+            model_name="client",
+            name="surname",
+            field=models.CharField(
+                blank=True,
+                default="введите в это поле отчество",
+                max_length=50,
+                null=True,
+            ),
         ),
     ]

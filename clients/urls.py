@@ -1,7 +1,16 @@
 from django.urls import path
-from .views import create_leads, ListLead, DetailLead, DeleteLead, LeadUpdateView, ActiveClient, ListInactive
 
-app_name = 'clients'
+from .views import (
+    ActiveClient,
+    DeleteLead,
+    DetailLead,
+    LeadUpdateView,
+    ListInactive,
+    ListLead,
+    create_leads,
+)
+
+app_name = "clients"
 urlpatterns = [
     path("create/", create_leads, name="leads-create"),
     path("delete/<int:pk>/", DeleteLead.as_view(), name="leads-delete"),
@@ -10,5 +19,4 @@ urlpatterns = [
     path("list/", ListLead.as_view(), name="leads-list"),
     path("list/active/", ActiveClient.as_view(), name="leads-active"),
     path("list/inactive/", ListInactive.as_view(), name="leads-inactive"),
-
 ]

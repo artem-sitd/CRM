@@ -2,9 +2,16 @@
 URL's модели услуг. 1 Создание, 2 удаление, 3 детальная страница, 4 редактирование, 5 полный список
 """
 from django.urls import path
-from .views import create_product, ListProducts, DetailProduct, DeleteProduct, ProductUpdateView
 
-app_name = 'products'
+from .views import (
+    DeleteProduct,
+    DetailProduct,
+    ListProducts,
+    ProductUpdateView,
+    create_product,
+)
+
+app_name = "products"
 # Услуги
 urlpatterns = [
     path("create/", create_product, name="products-create"),
@@ -12,5 +19,4 @@ urlpatterns = [
     path("detail/<int:pk>/", DetailProduct.as_view(), name="products-detail"),
     path("<int:pk>/edit/", ProductUpdateView.as_view(), name="products-edit"),
     path("list/", ListProducts.as_view(), name="products-list"),
-
 ]
