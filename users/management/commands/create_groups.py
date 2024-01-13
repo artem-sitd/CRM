@@ -1,6 +1,6 @@
 from django.contrib.auth.models import Group, Permission, User
 from django.core.management import BaseCommand
-
+from django.contrib.contenttypes.models import ContentType
 from users.models import Profile
 
 """
@@ -16,7 +16,7 @@ from users.models import Profile
 class Command(BaseCommand):
     def handle(self, *args, **options):
         # Создание групп
-        new_groups = ("Operators", "Marketers", "Managers")
+        new_groups = ('Admins', "Operators", "Marketers", "Managers")
         for gr in new_groups:
             Group.objects.create(name=gr)
             self.stdout.write(self.style.SUCCESS(f"Создана группа: {gr}"))
@@ -85,21 +85,26 @@ class Command(BaseCommand):
                 self.style.SUCCESS(f"Пользователь: {user1} добавлен в группу: {group}")
             )
 
-        for k, v in list(zip(new_groups, users_data[1:])):
+        for k, v in list(zip(new_groups, users_data)):
             get_user = User.objects.get(username=v["username"])
             get_group = Group.objects.get(name=k)
             add_groups(user1=get_user, group=get_group)
 
-        # Добавление permissions группам
+        """
+            Ниже скрипт выполняет добавление permissions группам. 
+            Можно было через словарь или еще как то упростить, но я решил пойти по длинному пути
+        """
 
         operators_gr = Group.objects.get(name="Operators")
         marketer_gr = Group.objects.get(name="Marketers")
         manager_gr = Group.objects.get(name="Managers")
+        admins_gr = Group.objects.get(name="Admins")
 
         permissions_operators = [
             "Can add client",
             "Can change client",
             "Can view client",
+            "Can view ads statistic"
         ]
         operator_perm_id = []
 
@@ -110,6 +115,7 @@ class Command(BaseCommand):
             "Can add ads",
             "Can change ads",
             "Can view ads",
+            "Can view ads statistic"
         ]
         marketer_perm_id = []
 
@@ -120,9 +126,36 @@ class Command(BaseCommand):
             "Can add client",
             "Can change client",
             "Can view client",
+            "Can view ads statistic"
         ]
         manager_perm_id = []
 
+        # Создание Специального разрешение для просмотра статистики рекламы
+        permission = Permission.objects.create(
+            codename="view_ads_stat",
+            name="Can view ads statistic",
+            content_type=ContentType.objects.get_for_model(
+                Group), )
+
+        permissions_admins = [
+            'Can view ads',
+            'Can view ads statistic',
+            'Can view client',
+            'Can view content type',
+            'Can view contract',
+            'Can view group',
+            'Can view history ads',
+            'Can view log entry',
+            'Can view permission',
+            'Can view product',
+            'Can view profile',
+            'Can view session',
+            'Can view user'
+        ]
+
+        admins_perm_id = []
+
+        # Добавление прав группе операторов
         for i in permissions_operators:
             operator_perm_id.append(Permission.objects.get(name=i).pk)
         operators_gr.permissions.set(operator_perm_id)
@@ -132,15 +165,15 @@ class Command(BaseCommand):
             )
         )
 
+        # Добавление прав группе маректологов
         for i in permissions_marketer:
             marketer_perm_id.append(Permission.objects.get(name=i).pk)
         marketer_gr.permissions.set(marketer_perm_id)
         self.stdout.write(
             self.style.SUCCESS(
-                f"Для группы: {marketer_gr} добавлены разрешения: {permissions_marketer}"
-            )
-        )
+                f"Для группы: {marketer_gr} добавлены разрешения: {permissions_marketer}"))
 
+        # Добавление прав группе менеджеров
         for i in permissions_manager:
             manager_perm_id.append(Permission.objects.get(name=i).pk)
         manager_gr.permissions.set(manager_perm_id)
@@ -149,6 +182,14 @@ class Command(BaseCommand):
                 f"Для группы: {manager_gr} добавлены разрешения: {permissions_manager}"
             )
         )
+
+        # Добавление прав группе админов
+        for i in permissions_admins:
+            admins_perm_id.append(Permission.objects.get(name=i).pk)
+        admins_gr.permissions.set(admins_perm_id)
+        self.stdout.write(
+            self.style.SUCCESS(
+                f"Для группы: {admins_gr} добавлены разрешения: {permissions_admins}"))
 
         self.stdout.write(f">>>>>>>")
         self.stdout.write(self.style.SUCCESS(f"Все команды выполнены"))
