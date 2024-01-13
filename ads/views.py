@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, HttpRequest
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -14,7 +14,7 @@ from .models import Ads
 
 
 @groups_required("Marketers")
-def create_ads(request):
+def create_ads(request:HttpRequest) -> HttpResponse:
     success_url = reverse_lazy("ads:ads-list")
     if request.method == "POST":
         form = AdsForm(request.POST)

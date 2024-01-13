@@ -25,9 +25,7 @@ def login_view(request):
                 if user.is_active:
                     login(request, user)
                     return HttpResponseRedirect(
-                        success_url
-                    )  # Перенаправление на страницу успеха (нужно настроить
-                    # на выход к странице со ссылками, но для этого надо разграничить доступы
+                        success_url)
                 else:
                     form.add_error("__all__", "Ошибка! учетная запись не активна")
             else:
@@ -43,7 +41,6 @@ class Logout_view(LogoutView):
 
 @groups_required("Operators", "Marketers", "Managers", "Admins")
 def generalStat(request):
-    print(request.user.get_all_permissions())
     if request.method == "GET":
         clients = Client.objects.aggregate(
             leads_count=Count(Case(When(state="POTENTIAL", then=1))),
