@@ -15,7 +15,7 @@ from .models import Contract
 def contracts_create(request):
     success_url = reverse_lazy("contracts:contracts-list")
     if request.method == "POST":
-        form = ContractsForm(request.POST)
+        form = ContractsForm(request.POST, request.FILES)
         if form.is_valid():
             valid_form = form.save()
             target_client = (

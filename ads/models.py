@@ -28,5 +28,5 @@ class Ads(models.Model):
     )
     promotion = models.CharField(choices=promotion_choice, blank=False, null=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.title}, {self.product}, {self.promotion}"
