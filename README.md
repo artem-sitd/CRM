@@ -1,3 +1,13 @@
+`python -m venv crm_venv` для window\
+`crm_venv/scripts/activate`
+
+
+`python3 -m venv crm_venv` для unix систем\
+`crm_venv/bin/activate`
+
+
+`pip install -r requirements.txt`
+
 `python manage.py makemigrations`
 
 `python manage.py migrate`
@@ -51,7 +61,7 @@
 ## Прочее
 
 - В файле sb_bd_crm.sql - дамп базы, заполненный небольшим набором данных. Можно загрузить себе командой
-`psql -U admin -d имя_базы_данных < sb_bd_crm.sql`, предварительно создав пустую базу  Postgres (можно создать
+`psql -U postgres -d имя_базы_данных < sb_bd_crm.sql`, предварительно создав пустую базу  Postgres (можно создать
 командой `createdb -U имя_пользователя_postgres название_базы`)
 - скорее всего для корректной загрузки потребуется не выполнять команду `python manage.py create_groups`
 

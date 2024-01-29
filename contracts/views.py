@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import DeleteView, DetailView, ListView, UpdateView
 
@@ -9,6 +10,14 @@ from crm_django.decorators import groups_required
 
 from .forms import ContractsForm
 from .models import Contract
+
+
+def check_validity_contracts():
+    active_contracts = Contract.objects.filter(archived=False).only('validity')
+    for contract in active_contracts:
+        if contract.validity <= timezone.now():
+            contract.archived = True
+            contract.save()
 
 
 @groups_required("Managers")
@@ -33,6 +42,7 @@ def contracts_create(request):
 
 @method_decorator(groups_required("Managers", "Admins"), name="dispatch")
 class ContractList(ListView):
+    check_validity_contracts()
     template_name = "contracts/contracts-list.html"
     context_object_name = "contracts"
     queryset = Contract.objects.filter(archived=False).order_by("id")
