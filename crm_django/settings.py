@@ -146,13 +146,14 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
-CELERY_BEAT_SCHEDULE = {
-    'task5sec': {
-        'task': 'contracts.tasks.task5_seconds',
-        'schedule': 5.0,
-    },
-    'task10sec': {
-        'task': 'contracts.tasks.task10_seconds',
-        'schedule': timedelta(seconds=10)
-    }
-}
+# можно настроить здесь либо в celery.py
+# CELERY_BEAT_SCHEDULE = {
+#     'task5sec': {
+#         'task': 'contracts.tasks.test5sec',
+#         'schedule': 5.0,
+#     },
+#     'task10sec': {
+#         'task': 'contracts.tasks.test10sec',
+#         'schedule': timedelta(seconds=10)
+#     }
+# }
