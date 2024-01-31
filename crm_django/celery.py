@@ -3,7 +3,7 @@ import os
 from celery import Celery
 
 # Set the default Django settings module for the 'celery' program.
-from celery.schedules import crontab
+from celery.schedules import crontab, timedelta
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'crm_django.settings')
 
@@ -19,13 +19,16 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
-    'update_contracts_validity': {
-        'task': 'contracts.tasks.check_validity_contracts',
-        'schedule': crontab(hour='0', minute='0'),  # Задача будет выполняться ежедневно в полночь
+    # 'update_contracts_validity': {
+    #     'task': 'contracts.tasks.check_validity_contracts',
+    #     'schedule': crontab(hour='0', minute='0'),  # Задача будет выполняться ежедневно в полночь
+    # },
+    'task5sec': {
+        'task': 'contracts.tasks.task5_seconds',
+        'schedule': 5.0,
     },
+    'task10sec': {
+        'task': 'contracts.tasks.task10_seconds',
+        'schedule': timedelta(seconds=10)
+    }
 }
-
-
-@app.task(bind=True, ignore_result=True)
-def debug_task(self):
-    print(f'Request: {self.request!r}')
