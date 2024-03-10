@@ -1,14 +1,7 @@
 from django.urls import path
 
-from .views import (
-    ActiveClient,
-    DeleteLead,
-    DetailLead,
-    LeadUpdateView,
-    ListInactive,
-    ListLead,
-    create_leads,
-)
+from .views import (ActiveClient, DeleteLead, DetailLead, LeadUpdateView,
+                    ListInactive, ListLead, create_leads)
 
 app_name = "clients"
 urlpatterns = [

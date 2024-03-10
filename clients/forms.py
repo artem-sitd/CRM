@@ -1,7 +1,6 @@
+from contracts.models import Contract
 from django import forms
 from django.contrib import messages
-
-from contracts.models import Contract
 
 from .models import Client, HistoryAds
 

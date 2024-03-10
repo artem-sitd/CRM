@@ -1,6 +1,7 @@
 from django.urls import path
 
-from .views import AdsUpdateView, DeleteAds, DetailAds, ListAds, ads_stat, create_ads
+from .views import (AdsUpdateView, DeleteAds, DetailAds, ListAds, ads_stat,
+                    create_ads)
 
 app_name = "ads"
 urlpatterns = [

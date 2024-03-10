@@ -1,12 +1,11 @@
-from django.http import HttpResponseRedirect, HttpResponse, HttpRequest
+from clients.models import HistoryAds
+from contracts.models import Contract
+from crm_django.decorators import groups_required
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import DeleteView, DetailView, ListView, UpdateView
-
-from clients.models import HistoryAds
-from contracts.models import Contract
-from crm_django.decorators import groups_required
 from products.models import Product
 
 from .forms import AdsForm
@@ -14,7 +13,7 @@ from .models import Ads
 
 
 @groups_required("Marketers")
-def create_ads(request:HttpRequest) -> HttpResponse:
+def create_ads(request: HttpRequest) -> HttpResponse:
     success_url = reverse_lazy("ads:ads-list")
     if request.method == "POST":
         form = AdsForm(request.POST)

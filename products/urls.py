@@ -3,13 +3,8 @@ URL's модели услуг. 1 Создание, 2 удаление, 3 дет�
 """
 from django.urls import path
 
-from .views import (
-    DeleteProduct,
-    DetailProduct,
-    ListProducts,
-    ProductUpdateView,
-    create_product,
-)
+from .views import (DeleteProduct, DetailProduct, ListProducts,
+                    ProductUpdateView, create_product)
 
 app_name = "products"
 # Услуги

@@ -1,11 +1,10 @@
+from crm_django.decorators import groups_required
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import DeleteView, DetailView, ListView, UpdateView
-
-from crm_django.decorators import groups_required
 
 from .forms import CheckPhoneForm, LeadUpdateForm
 from .models import Client, HistoryAds

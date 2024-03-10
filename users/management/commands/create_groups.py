@@ -16,7 +16,7 @@ from users.models import Profile
 class Command(BaseCommand):
     def handle(self, *args, **options):
         # Создание групп
-        new_groups = ('Admins', "Operators", "Marketers", "Managers")
+        new_groups = ("Admins", "Operators", "Marketers", "Managers")
         for gr in new_groups:
             Group.objects.create(name=gr)
             self.stdout.write(self.style.SUCCESS(f"Создана группа: {gr}"))
@@ -104,7 +104,7 @@ class Command(BaseCommand):
             "Can add client",
             "Can change client",
             "Can view client",
-            "Can view ads statistic"
+            "Can view ads statistic",
         ]
         operator_perm_id = []
 
@@ -115,7 +115,7 @@ class Command(BaseCommand):
             "Can add ads",
             "Can change ads",
             "Can view ads",
-            "Can view ads statistic"
+            "Can view ads statistic",
         ]
         marketer_perm_id = []
 
@@ -126,7 +126,7 @@ class Command(BaseCommand):
             "Can add client",
             "Can change client",
             "Can view client",
-            "Can view ads statistic"
+            "Can view ads statistic",
         ]
         manager_perm_id = []
 
@@ -134,23 +134,23 @@ class Command(BaseCommand):
         permission = Permission.objects.create(
             codename="view_ads_stat",
             name="Can view ads statistic",
-            content_type=ContentType.objects.get_for_model(
-                Group), )
+            content_type=ContentType.objects.get_for_model(Group),
+        )
 
         permissions_admins = [
-            'Can view ads',
-            'Can view ads statistic',
-            'Can view client',
-            'Can view content type',
-            'Can view contract',
-            'Can view group',
-            'Can view history ads',
-            'Can view log entry',
-            'Can view permission',
-            'Can view product',
-            'Can view profile',
-            'Can view session',
-            'Can view user'
+            "Can view ads",
+            "Can view ads statistic",
+            "Can view client",
+            "Can view content type",
+            "Can view contract",
+            "Can view group",
+            "Can view history ads",
+            "Can view log entry",
+            "Can view permission",
+            "Can view product",
+            "Can view profile",
+            "Can view session",
+            "Can view user",
         ]
 
         admins_perm_id = []
@@ -171,7 +171,9 @@ class Command(BaseCommand):
         marketer_gr.permissions.set(marketer_perm_id)
         self.stdout.write(
             self.style.SUCCESS(
-                f"Для группы: {marketer_gr} добавлены разрешения: {permissions_marketer}"))
+                f"Для группы: {marketer_gr} добавлены разрешения: {permissions_marketer}"
+            )
+        )
 
         # Добавление прав группе менеджеров
         for i in permissions_manager:
@@ -189,7 +191,9 @@ class Command(BaseCommand):
         admins_gr.permissions.set(admins_perm_id)
         self.stdout.write(
             self.style.SUCCESS(
-                f"Для группы: {admins_gr} добавлены разрешения: {permissions_admins}"))
+                f"Для группы: {admins_gr} добавлены разрешения: {permissions_admins}"
+            )
+        )
 
         self.stdout.write(f">>>>>>>")
         self.stdout.write(self.style.SUCCESS(f"Все команды выполнены"))

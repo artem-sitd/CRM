@@ -1,11 +1,15 @@
-from django.db import models
-from clients.models import HistoryAds
-from products.models import Product
 import uuid
 
+from django.db import models
 
-def contract_file(instance: 'Contract', filename) -> str:
-    return 'contracts/contract_{uniq_id}/{filename}'.format(uniq_id=instance.uniq_id, filename=filename)
+from clients.models import HistoryAds
+from products.models import Product
+
+
+def contract_file(instance: "Contract", filename) -> str:
+    return "contracts/contract_{uniq_id}/{filename}".format(
+        uniq_id=instance.uniq_id, filename=filename
+    )
 
 
 class Contract(models.Model):
@@ -23,9 +27,7 @@ class Contract(models.Model):
     file = models.FileField(
         null=True, upload_to=contract_file, blank=True
     )  # Договор, или другой файл
-    ads_history = models.ForeignKey(
-        HistoryAds, on_delete=models.SET_NULL, null=True
-    )
+    ads_history = models.ForeignKey(HistoryAds, on_delete=models.SET_NULL, null=True)
 
     # ДАННОЕ ПОЛЕ ИСПОЛЬЗУЕТСЯ ТОЛЬКО ДЛЯ КОРРЕКТНОЙ ГЕНЕРАЦИИ НОМЕРА ПАПКИ ПРИ СОХРАНЕНИИ ФАЙЛА, Т.К.
     # ПРИ ИСОПЛЬЗОВАНИИ ФУНКЦИИ contract_file У INSTANCE ОБЪЕКТА ЕЩЕ НЕТ ПЕРВИЧНОГО КЛЮЧА И ПОЛУЧАЕТСЯ ПАПКА CONTRACT_NONE

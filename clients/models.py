@@ -1,9 +1,8 @@
 """
 Клиент - имеет свое состояние: Потенциальный, активный (действующий контракт), не активный (контракты закончились)
 """
-from django.db import models
-
 from ads.models import Ads
+from django.db import models
 
 
 class Client(models.Model):

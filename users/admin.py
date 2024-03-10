@@ -1,10 +1,15 @@
 from django.contrib import admin
-from .models import Profile
 from django.contrib.auth.models import Group, User
 
+from .models import Profile
+
 admin.site.register(Profile)
-admin.site.unregister(Group)  # убираю группы и юзеры, доступ будет только у суперпользователя
-admin.site.unregister(User)  # убираю группы и юзеры, доступ будет только у суперпользователя
+admin.site.unregister(
+    Group
+)  # убираю группы и юзеры, доступ будет только у суперпользователя
+admin.site.unregister(
+    User
+)  # убираю группы и юзеры, доступ будет только у суперпользователя
 
 
 @admin.register(Group)

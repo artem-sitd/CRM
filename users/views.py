@@ -24,8 +24,7 @@ def login_view(request):
             if user:
                 if user.is_active:
                     login(request, user)
-                    return HttpResponseRedirect(
-                        success_url)
+                    return HttpResponseRedirect(success_url)
                 else:
                     form.add_error("__all__", "Ошибка! учетная запись не активна")
             else:
