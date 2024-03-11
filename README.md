@@ -102,3 +102,43 @@
 | Все остальные функции CRM-системы должны быть доступны вне административного интерфейса Django.                                                                                                   | Выполнено                                                                                                                                                                                |
 | Нужно использовать PostgreSQL как систему управления базами данных (СУБД). О том, как установить её, вы можете узнать в инструкциях: установка на Windows, установка на Linux и настройка Django. | Выполнено                                                                                                                                                                                |
 | Необходимо подключить Pylint, чтобы автоматически проверять код на соответствие стилевому оформлению. Чтобы разобраться в этом подробнее, прочитайте инструкцию по использованию для Pylint.      | Использую black и isort                                                                                                                                                                  |
+
+## Скриншоты
+### Аутентификация 
+![image](https://github.com/artem-sitd/CRM/assets/22573129/9f842c0b-6e1d-46eb-baf1-1f36da19a848)
+
+### Страница Мэнеджера
+![image](https://github.com/artem-sitd/CRM/assets/22573129/4758fd9c-f244-48be-8aee-00e8ac124629)
+![image](https://github.com/artem-sitd/CRM/assets/22573129/2a645ddb-5ff8-484a-b786-75e313510f0f)
+![image](https://github.com/artem-sitd/CRM/assets/22573129/dca9ed80-8b30-453e-b30c-83f101b07c29)
+![image](https://github.com/artem-sitd/CRM/assets/22573129/e60b34fc-fbd6-4b0a-9b9e-495380d83121)
+![image](https://github.com/artem-sitd/CRM/assets/22573129/fa2d8de1-e6e8-4f2f-afe9-26042570f7a7)
+![image](https://github.com/artem-sitd/CRM/assets/22573129/da891312-9679-4801-a310-f0892d81afe5)
+
+
+### Создание контракта
+![image](https://github.com/artem-sitd/CRM/assets/22573129/ebdcde78-17e1-4ac0-9f1f-29b167810069)
+![image](https://github.com/artem-sitd/CRM/assets/22573129/6d81a7cf-4960-45fe-aa0c-4c91cdd5b520)
+![image](https://github.com/artem-sitd/CRM/assets/22573129/bace4321-f6b7-4b16-89df-846766cdbbfd)
+
+
+### Страница маркетолога
+![image](https://github.com/artem-sitd/CRM/assets/22573129/eb4a27f1-ae3c-47d4-8269-c93865894056)
+![image](https://github.com/artem-sitd/CRM/assets/22573129/04eb62f7-161f-417c-b2f6-6dd50eda8494)
+![image](https://github.com/artem-sitd/CRM/assets/22573129/2383c3c3-f5c7-4599-9722-cd6eb6a82ba3)
+![image](https://github.com/artem-sitd/CRM/assets/22573129/721f32f8-1842-4900-8d95-78435f0dc830)
+
+
+### Создание рекламной компании
+![image](https://github.com/artem-sitd/CRM/assets/22573129/46d4bd16-4035-43eb-a2b6-87e484fc50d9)
+
+
+### Странциа оператора
+![image](https://github.com/artem-sitd/CRM/assets/22573129/f374ac5c-3828-4864-b0e5-61b883855629)
+
+
+
+### Админка
+![image](https://github.com/artem-sitd/CRM/assets/22573129/f886e884-50f4-45bb-b195-74756d9dfd61)
+![image](https://github.com/artem-sitd/CRM/assets/22573129/bd5a1587-ed99-4159-a88f-73bf960c953f)
+
