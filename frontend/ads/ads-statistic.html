@@ -1,73 +1,52 @@
 {% extends "_base.html" %}
 
 {% block content %}
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
+    <h2 class="fw-semibold mb-4">Статистика рекламных кампаний</h2>
 
-        th, td {
-            padding: 8px;
-            text-align: center;
-            border: 1px solid #dddddd;
-
-        }
-
-        th {
-            background-color: #bbddf5; /* Светло-голубой фон для заголовков */
-        }
-
-        tr:nth-child(even) {
-            background-color: #d9f5d9; /* Светло-зеленый фон для четных строк */
-        }
-
-        tr:nth-child(odd) {
-            background-color: #badaba;
-            /* Темно-зеленый фон для нечетных строк */
-        }
-    </style>
-    <h2 class="fw-bold">Статистика рекламных компаний</h2>
-    <div class="row bg-white px-3 py-3 mx-2 my-5 rounded pb-5 shadow-lg">
-        <div class="col">
-
-            <ul class="list-group">
-                <table border="2px">
-                    <thead>
+    <div class="row bg-white px-4 py-4 mx-2 my-5 rounded shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle text-center">
+                <thead class="table-primary">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Лидов</th>
+                    <th scope="col">Контракты</th>
+                    <th scope="col">Бюджет рекламы</th>
+                    <th scope="col">Сумма контрактов</th>
+                    <th scope="col">ROI</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for ad in data %}
                     <tr>
-                        <th>ID</th>
-                        <th>Название</th>
-                        <th>Лидов</th>
-                        <th>Контракты</th>
-                        <th>Бюджет рекламы</th>
-                        <th>Сумма контрактов</th>
-                        <th>ROI</th>
+                        <td>
+                            <a href="/ads/detail/{{ ad.pk }}" class="text-decoration-none">
+                                {{ ad.pk }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/ads/detail/{{ ad.pk }}" class="fw-semibold text-dark text-decoration-none">
+                                {{ ad.title }}
+                            </a>
+                        </td>
+                        <td>{{ ad.client_potential }}</td>
+                        <td>{{ ad.client_active }}</td>
+                        <td>{{ ad.ad_price|floatformat:0 }} ₽</td>
+                        <td>{{ ad.profit|floatformat:0 }} ₽</td>
+                        <td>
+                            <span class="badge {% if ad.ROI > 100 %}bg-success{% elif ad.ROI >= 50 %}bg-warning{% else %}bg-danger{% endif %}">
+                                {{ ad.ROI|floatformat:1 }}%
+                            </span>
+                        </td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    {% for ad in data %}
-                        <tr>
-                            <td><a href="/ads/detail/{{ ad.pk }}">{{ ad.pk }}</a></td>
-                            <td><a href="/ads/detail/{{ ad.pk }}">{{ ad.title }}</a></td>
-                            <td>{{ ad.client_potential }}</td>
-                            <td>{{ ad.client_active }}</td>
-                            <td>{{ ad.ad_price }}</td>
-                            <td>{{ ad.profit }}</td>
-                            <td>{{ ad.ROI }} %</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-                {#                {% for ad in data %}#}
-                {#                    <li class="list-group-item list-group-item-light d-flex justify-content-between">#}
-                {#                        <a href="/ads/detail/{{ ad.pk }}/"#}
-                {#                           class="text-decoration-none link-dark">Реклама: {{ ad.title }}. </a>#}
-                {#                        <p> Лидов: {{ ad.client_potential }} | Заключено контрактов: {{ ad.client_active }}. </p>#}
-                {#                        <p> Бюджет рекламы: {{ ad.ad_price }} | Сумма контрактов: {{ ad.profit }}. </p>#}
-                {#                        </p> Соотношение контрактов к затратам: <b>{{ ad.ROI }}%</b> </p>#}
-                {#                    </li>#}
-                {#                {% endfor %}#}
-            </ul>
+                {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-muted">Нет данных для отображения.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}

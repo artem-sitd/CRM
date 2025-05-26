@@ -1,99 +1,129 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="{% static "style.css" %}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>CRM</title>
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+
+    <style>
+        body {
+            background-color: #f5f7fa;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .navbar {
+            background-color: #343a40;
+        }
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.4rem;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background-color: #1f1f2e;
+            color: #ccc;
+        }
+        .sidebar .nav-link {
+            color: #bbb;
+            padding: 12px 20px;
+            transition: all 0.2s;
+        }
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background-color: #343a40;
+            color: #fff;
+            border-left: 4px solid #0d6efd;
+        }
+        .sidebar .nav-link i {
+            width: 20px;
+        }
+        .content-wrapper {
+            background-color: #fff;
+            padding: 2rem;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .logout-btn {
+            background-color: transparent;
+            color: #ccc;
+            border: none;
+            padding: 10px 20px;
+            width: 100%;
+            text-align: left;
+            transition: all 0.2s;
+        }
+        .logout-btn:hover {
+            background-color: #343a40;
+            color: #fff;
+        }
+        .messages {
+            margin-top: 1rem;
+        }
+    </style>
 </head>
+
 <body>
-<h5 align="center">Пользователь: {{ request.user }}</h5>
-{% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li class="{{ message.tags }}">{{ message }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
-<div class="main-container d-flex">
-
-    <div class="sidebar" id="side_nav">
-        <div class="header-box px-5 pt-4 pb-4">
-            <h1 class="fs-4 nav-logo">
-                <span class="text-black text-uppercase font-weight-bold">
-                    <a class="link-dark text-decoration-none" href="/">CRM BACKOFFICE</a>
-                </span>
-            </h1>
+    <nav class="navbar navbar-expand-lg navbar-dark px-4">
+        <a class="navbar-brand" href="/">CRM BACKOFFICE</a>
+        <div class="ms-auto text-white">
+            Пользователь: {{ request.user }}
         </div>
-        <ul class="list-unstyled px-2">
-            {% if perms.products.view_product %}
-                <li><a href="/products/list/" class="bar-item text-decoration-none px-3 py-3 d-block">
-                    <span><i class="fas fa-microchip"></i></span><span class="ml-1"> Услуги</span>
-                </a></li>
-            {% endif %}
+    </nav>
 
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <aside class="col-md-3 col-lg-2 sidebar d-flex flex-column pt-4">
+                <ul class="nav flex-column">
+                    {% if perms.products.view_product %}
+                        <li><a href="/products/list/" class="nav-link"><i class="fas fa-microchip"></i> Услуги</a></li>
+                    {% endif %}
+                    {% if perms.auth.view_ads_stat %}
+                        <li><a href="/ads/statistic/" class="nav-link"><i class="fas fa-chart-line"></i> Статистика рекламы</a></li>
+                    {% endif %}
+                    {% if perms.ads.view_ads %}
+                        <li><a href="/ads/list/" class="nav-link"><i class="fas fa-ad"></i> Рекламные кампании</a></li>
+                    {% endif %}
+                    {% if perms.clients.view_client %}
+                        <li><a href="/clients/list/" class="nav-link"><i class="fas fa-user-clock"></i> Лиды</a></li>
+                        <li><a href="/clients/list/active/" class="nav-link"><i class="fas fa-user-check"></i> Активные клиенты</a></li>
+                        <li><a href="/clients/list/inactive/" class="nav-link"><i class="fas fa-user-times"></i> Неактивные клиенты</a></li>
+                    {% endif %}
+                    {% if perms.contracts.view_contract %}
+                        <li><a href="/contracts/list/" class="nav-link"><i class="fas fa-file-contract"></i> Контракты</a></li>
+                    {% endif %}
+                </ul>
 
-            {% if perms.auth.view_ads_stat %}
-                <li><a href="/ads/statistic/" class="bar-item text-decoration-none px-3 py-3 d-block">
-                    <span><i class="fas fa-microchip"></i></span><span class="ml-1"> Статистика рекламы</span>
-                </a></li>
-            {% endif %}
+                <form action="{% url 'users:logout' %}" method="post" class="mt-auto">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn"><i class="fas fa-sign-out-alt me-2"></i> Выйти</button>
+                </form>
+            </aside>
 
-
-            {% if perms.ads.view_ads %}
-                <li><a href="/ads/list/" class="bar-item text-decoration-none px-3 py-3 d-block">
-                    <span><i class="fas fa-ad"></i></span><span class="ml-1"> Рекламные компании</span>
-                </a></li>
-            {% endif %}
-            {% if perms.clients.view_client %}
-                <li><a href="/clients/list/" class="bar-item text-decoration-none px-3 py-3 d-block">
-                    <span><i class="fas fa-user-clock"></i></span><span class="px-1"> Лиды</span>
-                </a></li>
-            {% endif %}
-            {% if perms.contracts.view_contract %}
-                <li><a href="/contracts/list/" class="bar-item text-decoration-none px-3 py-3 d-block">
-                    <span><i class="fas fa-file-alt"></i></span><span class="px-1"> Контракты</span>
-                </a></li>
-            {% endif %}
-
-            {% if perms.clients.view_client %}
-                <li><a href="/clients/list/active/" class="bar-item text-decoration-none px-3 py-3 d-block">
-                    <span><i class="fas fa-user-check"></i></span><span class="px-1"> Активные клиенты</span>
-                </a></li>
-            {% endif %}
-
-            {% if perms.clients.view_client %}
-                <li><a href="/clients/list/inactive/" class="bar-item text-decoration-none px-3 py-3 d-block">
-                    <span><i class="fas fa-user-check"></i></span><span class="px-1"> Неактивные клиенты</span>
-                </a></li>
-            {% endif %}
-
-            <li>
-                <hr>
-            </li>
-
-            {#                убрал эту кнопку, т.к. она делает get запрос, а logoutView принимает post#}
-
-            {#            <li><a href="/users/logout" class="bar-item text-decoration-none px-3 py-3 d-block">#}
-            {#                <span><i class="fas fa-sign-out-alt"></i></span><span class="px-1"> Выход</span>#}
-            {#            </a></li>#}
-
-            <form action="{% url 'users:logout' %}" method="post">
-                {% csrf_token %}
-                <button type="submit">Выйти</button>
-            </form>
-
-        </ul>
+            <!-- Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+                {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="content-wrapper">
+                    {% block content %}{% endblock %}
+                </div>
+            </main>
+        </div>
     </div>
-    <div class="content px-3 pt-4">
-        {% block content %}{% endblock %}
-    </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

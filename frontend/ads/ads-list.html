@@ -1,22 +1,46 @@
 {% extends "_base.html" %}
 
 {% block content %}
-<h2 class="fw-bold">Рекламные компании</h2>
-<div class="row bg-white px-3 py-3 mx-2 my-5 rounded pb-5 shadow-lg">
-    <div class="hstack gap-3 pb-4">
-        <a href="/ads/create/" class="btn btn-success p-2">Создать</a>
-        <a href="/ads/statistic" class="btn btn-primary p-2">Статистика</a>
+<h2 class="fw-semibold mb-4">Рекламные кампании</h2>
+
+<div class="container">
+    <div class="d-flex gap-3 mb-4">
+        <a href="/ads/create/" class="btn btn-success btn-sm">
+            <i class="fas fa-plus-circle me-1"></i> Создать
+        </a>
+        <a href="/ads/statistic" class="btn btn-primary btn-sm">
+            <i class="fas fa-chart-bar me-1"></i> Статистика
+        </a>
     </div>
-    <div class="col">
-        <ul class="list-group">
-            {% for ad in ads %}
-            <li class="list-group-item list-group-item-light d-flex justify-content-between">
-                <a href="/ads/detail/{{ ad.pk }}" class="text-decoration-none link-dark">{{ ad.title }}</a>
-                <p> Бюджет: {{ ad.price }} </p>
-                <a href="/ads/{{ ad.pk }}/delete" class="btn btn-danger">Удалить</a>
-            </li>
-            {% endfor %}
-        </ul>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for ad in ads %}
+        <div class="col">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-3 d-flex flex-column justify-content-between">
+                    <h6 class="card-title mb-2 text-truncate">
+                        <a href="/ads/detail/{{ ad.pk }}" class="text-decoration-none text-dark">
+                            {{ ad.title }}
+                        </a>
+                    </h6>
+                    <p class="card-text text-muted mb-2 small">
+                        <i class="fas fa-wallet me-1"></i> <strong>{{ ad.price }}</strong> ₽
+                    </p>
+                    <div class="d-flex justify-content-end">
+                        <a href="/ads/{{ ad.pk }}/delete" class="btn btn-outline-danger btn-sm">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col">
+            <div class="alert alert-info">
+                Рекламных кампаний пока нет.
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
